@@ -1,25 +1,34 @@
 import { useState } from 'react'
 
 const RandomButton = (props) => {
-/**
- * https://stackoverflow.com/a/1527820/11559806
- * 
- * Returns a random integer between min (inclusive) and max (inclusive).
- * The value is no lower than min (or the next integer greater than min
- * if min isn't an integer) and no greater than max (or the next integer
- * lower than max if max isn't an integer).
- * Using Math.round() will give you a non-uniform distribution!
- */
-function getRandomInt(min, max) {
-  min = Math.ceil(min);
-  max = Math.floor(max);
-  return Math.floor(Math.random() * (max - min + 1)) + min;
-}
+  /**
+   * https://stackoverflow.com/a/1527820/11559806
+   * 
+   * Returns a random integer between min (inclusive) and max (inclusive).
+   * The value is no lower than min (or the next integer greater than min
+   * if min isn't an integer) and no greater than max (or the next integer
+   * lower than max if max isn't an integer).
+   * Using Math.round() will give you a non-uniform distribution!
+   */
+  function getRandomInt(min, max) {
+    min = Math.ceil(min);
+    max = Math.floor(max);
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+  }
 
   return (
-    <div>
-      <button onClick={() => {props.setSelected(getRandomInt(0, props.anecdotes.length-1))}}>next anecdote</button>
-    </div>
+    <button onClick={() => {props.setSelected(getRandomInt(0, props.anecdotes.length-1))}}>next anecdote</button>
+  )
+}
+
+const VoteButton = (props) => {
+  // make a copy of the state to not change the original array
+  const copy = [...props.points]
+  // increment the value in position "selected" by one
+  copy[props.selected] += 1    
+
+  return (
+    <button onClick={() => {props.setPoints(copy)}}>vote</button>
   )
 }
 
@@ -34,16 +43,18 @@ const App = () => {
     'Programming without an extremely heavy use of console.log is same as if a doctor would refuse to use x-rays or blood tests when diagnosing patients.',
     'The only way to go fast, is to go well.'
   ]
-   
+ 
   const [selected, setSelected] = useState(0)
-
-  console.log('selected', selected);
-
+  const [points, setPoints] = useState([0, 0, 0, 0, 0, 0, 0, 0])
 
   return (
     <div>
       {anecdotes[selected]}
-      <RandomButton anecdotes={anecdotes} setSelected={setSelected} />
+      <p>has {points[selected]} votes</p>
+      <div>
+        <VoteButton selected={selected} points={points} setPoints={setPoints} />
+        <RandomButton anecdotes={anecdotes} setSelected={setSelected} />
+      </div>
     </div>
   )
 }
