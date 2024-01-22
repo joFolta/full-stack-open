@@ -40,13 +40,17 @@ const Statistics = (props) => {
   return (
     <>
       <Heading text={"statistics"}/>
-      <Statistic text={"good"} value={props.good} />
-      <Statistic text={"neutral"} value={props.neutral} />
-      <Statistic text={"bad"} value={props.bad} />
-      <Statistic text={"all"} value={props.good + props.neutral + props.bad} />
-      {/* <Statistic text={"average"} value={(props.good + props.neutral + props.bad)/3} /> */}
-      <Statistic text={"average"} value={(props.good - props.bad)/(props.good + props.neutral + props.bad)} />
-      <PercPositive value={props.good/(props.good + props.neutral + props.bad) * 100} />
+
+      {(props.good || props.neutral || props.bad) ? 
+      <>
+        <Statistic text={"good"} value={props.good} />
+        <Statistic text={"neutral"} value={props.neutral} />
+        <Statistic text={"bad"} value={props.bad} />
+        <Statistic text={"all"} value={props.good + props.neutral + props.bad} />
+        <Statistic text={"average"} value={(props.good - props.bad)/(props.good + props.neutral + props.bad)} />
+        <PercPositive value={props.good/(props.good + props.neutral + props.bad) * 100} />
+      </>
+      : <p>No feedback given</p>}
     </>
   )
 }
