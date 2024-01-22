@@ -6,7 +6,7 @@ const Heading = (props) => {
   )
 }
 
-const FeedbackButton = (props) => {
+const Button = (props) => {
   return (
     <button onClick={() => {props.setValue(props.value + 1)}}>{props.text}</button>
   )
@@ -15,16 +15,16 @@ const FeedbackButton = (props) => {
 const Feedback = (props) => {
   return (
   <>
-    <Heading text={"give feedback"}/>
-    <FeedbackButton text={"good"} value={props.good} setValue={props.setGood}/>
-    <FeedbackButton text={"neutral"} value={props.neutral} setValue={props.setNeutral}/>
-    <FeedbackButton text={"bad"} value={props.bad} setValue={props.setBad}/>
+    <Heading text="give feedback"/>
+    <Button text="good" value={props.good} setValue={props.setGood}/>
+    <Button text="neutral" value={props.neutral} setValue={props.setNeutral}/>
+    <Button text="bad" value={props.bad} setValue={props.setBad}/>
   </>
   )
 }
 
 // a proper place to define a component
-const Statistic = (props) => {
+const StatisticLine = (props) => {
   return (
     <p>{props.text} {props.value}</p>
   )
@@ -39,15 +39,15 @@ const PercPositive = (props) => {
 const Statistics = (props) => {
   return (
     <>
-      <Heading text={"statistics"}/>
+      <Heading text="statistics"/>
 
       {(props.good || props.neutral || props.bad) ? 
       <>
-        <Statistic text={"good"} value={props.good} />
-        <Statistic text={"neutral"} value={props.neutral} />
-        <Statistic text={"bad"} value={props.bad} />
-        <Statistic text={"all"} value={props.good + props.neutral + props.bad} />
-        <Statistic text={"average"} value={(props.good - props.bad)/(props.good + props.neutral + props.bad)} />
+        <StatisticLine text="good" value={props.good} />
+        <StatisticLine text="neutral" value={props.neutral} />
+        <StatisticLine text="bad" value={props.bad} />
+        <StatisticLine text="all" value={props.good + props.neutral + props.bad} />
+        <StatisticLine text="average" value={(props.good - props.bad)/(props.good + props.neutral + props.bad)} />
         <PercPositive value={props.good/(props.good + props.neutral + props.bad) * 100} />
       </>
       : <p>No feedback given</p>}
