@@ -29,6 +29,12 @@ const Statistic = (props) => {
   )
 }
 
+const PercPositive = (props) => {
+  return (
+    <p>positive {props.value} %</p>
+  )
+}
+ 
 const Statistics = (props) => {
   return (
     <>
@@ -36,6 +42,10 @@ const Statistics = (props) => {
       <Statistic text={"good"} value={props.good} />
       <Statistic text={"neutral"} value={props.neutral} />
       <Statistic text={"bad"} value={props.bad} />
+      <Statistic text={"all"} value={props.good + props.neutral + props.bad} />
+      {/* <Statistic text={"average"} value={(props.good + props.neutral + props.bad)/3} /> */}
+      <Statistic text={"average"} value={(props.good - props.bad)/(props.good + props.neutral + props.bad)} />
+      <PercPositive value={props.good/(props.good + props.neutral + props.bad) * 100} />
     </>
   )
 }
