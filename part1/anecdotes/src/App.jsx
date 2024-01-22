@@ -1,4 +1,6 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
+
+const Heading = (props) => <h2>{props.text}</h2>
 
 const RandomButton = (props) => {
   /**
@@ -46,15 +48,51 @@ const App = () => {
  
   const [selected, setSelected] = useState(0)
   const [points, setPoints] = useState([0, 0, 0, 0, 0, 0, 0, 0])
+  const [mostVotes, setMostVotes] = useState(null)
+
+  useEffect(() => {
+    function findIndexWithMostVotes() {
+      // short-circuit to preserve "No votes have been cast" message
+      const sum = points.reduce((partialSum, a) => partialSum + a, 0);
+      if (sum === 0) return null
+
+      let largest = points[0]
+      let indexWithMostVotes = 0
+
+      for (let i=0; i<points.length; i++) {
+        if (points[i] > largest) {
+          largest = points[i]
+          indexWithMostVotes = i
+        }
+      }
+
+      return indexWithMostVotes
+    }
+
+    const indexWithMostVotes = findIndexWithMostVotes()
+
+    setMostVotes(indexWithMostVotes)
+  }
+  , [points])
 
   return (
     <div>
+      <Heading text="Anecdote of the day" />
       {anecdotes[selected]}
       <p>has {points[selected]} votes</p>
       <div>
         <VoteButton selected={selected} points={points} setPoints={setPoints} />
         <RandomButton anecdotes={anecdotes} setSelected={setSelected} />
       </div>
+
+      <Heading text="Anecdote with the most votes" />
+      {mostVotes === null ? <p>No votes have been cast</p>
+      :
+      <>
+        {anecdotes[mostVotes]}
+        <p>has {points[mostVotes]} votes</p>
+      </>
+    }
     </div>
   )
 }
