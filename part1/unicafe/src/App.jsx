@@ -23,6 +23,7 @@ const Feedback = (props) => {
   )
 }
 
+// a proper place to define a component
 const Statistic = (props) => {
   return (
     <p>{props.text} {props.value}</p>
